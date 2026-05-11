@@ -59,3 +59,31 @@ SELECT DISTINCT owner FROM pet WHERE UPPER(owner) GLOB '[A-E]*[A-E]';
 
 -- Q2-6 Repeat the previous query, but make the query sensitive to the case of letters of the alphabet the characters in the name
 SELECT DISTINCT owner FROM pet WHERE UPPER(owner) GLOB '[A-E]*[A-E]';
+
+-- DataManipulation
+SELECT name FROM pet WHERE strftime('%m',birth) = strftime('%m','now');
+SELECT name, strftime('%m', birth) FROM pet;
+SELECT name, strftime('%m', birth) AS Month FROM pet;
+SELECT owner, name, (checkups * 20) AS income FROM pet;
+SELECT owner, name, birth, MIN(strftime('%Y',birth)) AS birth FROM pet GROUP BY owner;
+
+-- Q3-1 The average number of check-ups that each owner has made with their pets
+SELECT owner, AVG(checkups) AS Average_Checkups FROM pet GROUP BY owner;
+
+-- Q3-2 The number of pets of each species in ascending order
+SELECT species, COUNT(*) AS Number_of_Pets FROM pet GROUP BY species ORDER BY Number_of_Pets ASC;
+
+-- Q3-3 The number of pets of each species that each owner has
+SELECT owner, species, COUNT(*) AS Number_of_Pets FROM pet GROUP BY owner, species ORDER BY owner, species;
+
+-- Q3-4 The number of distince species of pet each owner has
+SELECT owner, COUNT(DISTINCT species) AS distinct_species_cout FROM pet GROUP BY owner;
+
+-- Q3-5 The number of pets of each gender there are in the database, where the gender is known
+SELECT sex, COUNT(*) Number_of_Pets FROM pet WHERE sex IS NOT NULL AND sex <>'' GROUP BY sex;
+
+-- Q3-6 The number of birds each owner has
+SELECT owner, COUNT(*) AS Number_of_Birds FROM pet WHERE species = 'bird' GROUP BY owner;
+
+-- Q3-7 The total number of check-ups each owner has made with all their pets
+SELECT owner, SUM(checkups) AS total_checkups FROM pet GROUP BY owner;
